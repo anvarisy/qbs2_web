@@ -6,12 +6,26 @@ from app.views.mission import *
 from app.views.platform import *
 from app.views.json import *
 from app.views.visimisi import *
+from app.views.user import *
+from app.views.walkthrough import *
+from app.views.payment import *
 
 urlpatterns = [
     path('', ViewHomePage.as_view(), name='home'),
     path('get-json', GetJsonSecurity.as_view(), name='get-json'),
     path('get-json-user', GetJsonUser.as_view(), name='get-json-user'),
+    path('get-json-auth', GetJsonAuth.as_view(), name='get-json-auth'),
     path('get-json-mission', GetJsonMission.as_view(), name='get-json-mission'),
+    path('login', ViewLogin.as_view(), name='login'),
+    path('post-login', PostLogin.as_view(), name='post-login'),
+    path('logout', PostLogout.as_view(), name='logout'),
+    # path('payment/<str:uid>/<str:mission>/<int:total>',ViwePaymentPage.as_view(), name='payment'),
+    path('charge',ViewPaymentPage.as_view(),name='charge'),
+    # path('payment', include(([
+    #      path('',ViewPaymentPage.as_view(), name='payment'),
+    #       path('/charge',GetChargeView.as_view(), name='charge'),
+    # ],'payment'))),
+    
     path('carousel',include(([
         path('add', ViewAddCarousel.as_view(), name='add'),
         path('list', ViewListCarousel.as_view(), name='list'),
@@ -49,7 +63,7 @@ urlpatterns = [
         path('add', ViewAddMission.as_view(), name='add'),
         path('list', ViewListMission.as_view(), name='list'),
         path('update/<str:id_mission>', ViewUpdateFormMission.as_view(), name='update'),
-       
+        path('detail/<str:id_mission>', ViewDetailMission.as_view(), name='detail'),
         path('update-image/<str:id_mission>', ViewUpdateImageMission.as_view(), name='update-image'),
         #  path('delete-collection/<str:id_mission>/?P<path>', DeleteImageCollection.as_view(), name='delete-collection'),
         path('update-image-title', UpdateImageTitle.as_view(), name='update-image-title'),
@@ -65,9 +79,22 @@ urlpatterns = [
          path('add-misi', AddMisi.as_view(), name='add-misi'),
          path('del-misi', DeleteMisi.as_view(), name='del-misi'),
          path('update-visi', UpdateVisi.as_view(), name='update-visi'),
+         path('update-detail', UpdateDetail.as_view(), name='update-detail'),
          path('post-del', DeleteProfilImage.as_view(), name='post-del'),
          path('add-col', AddCollection.as_view(), name='add-col')
-     ],'visimisi')))
+     ],'visimisi'))),
+     path('user', include(([
+         path('',ViewUser.as_view(), name='list')
+     ],'user'))),
+     path('walk', include(([
+         path('post-add', PostAddWalk.as_view(), name='post-add'),
+         path('post-update/<str:id_walk>', PostUpdateWalk.as_view(), name='post-update'),
+         path('add', ViewAddWalkthrough.as_view(), name='add'),
+         path('list', ViewListWalk.as_view(), name='list'),
+         path('update/<str:id_walk>', ViewUpdateWalkthrough.as_view(), name='update'),
+         path('delete/<str:id_walk>', DeleteWalk.as_view(), name='delete')
+         
+     ],'walk')))
   
     
 ]

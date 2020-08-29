@@ -25,11 +25,10 @@
                     <thead>
                         <tr>
                             <th hidden></th>
-                            <th class="wd-20p">Mission Name</th>
-                            <th class="wd-10p">Mission Start</th>
-                            <th class="wd-10p">Mission End</th>
-                            <th class="wd-20p">Mission Target</th>
-                            <th class="wd-20p">Mission Collected</th>
+                            <th class="wd-20p">Title</th>
+                            <th class="wd-5p">Start</th>
+                            <th class="wd-5p">End</th>
+                            <th class="wd-15p">Target</th>
                             <th class="wd-10p"></th>
                         </tr>
                     </thead>
@@ -37,13 +36,13 @@
                         {% for item in data %}
                         <tr id="item">
                             <td hidden>{{ item.id }}</td>
-                            <td>{{ item.mission_name }}</td>
-                            <td>{{ item.mission_start }}</td>
-                            <td>{{ item.mission_end }}</td>
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.start }}</td>
+                            <td>{{ item.end }}</td>
                             <td>{{ item.t }}</td>
-                            <td>{{ item.total}}</td>
 
                             <td style="padding-left: 8px; padding-right: 8px">
+                                <a class="icon ion-compose" href="{% url 'mission:detail' id_mission=item.id %}" style="margin-right: 7px"></a>
                                 <a class="fa fa-gear" href="{% url 'mission:update' id_mission=item.id %}" style="margin-right: 7px"></a>
                                 <a class="fa fa-image" href="{% url 'mission:update-image' id_mission=item.id %}" style="margin-right: 7px"></a>
                                 <a class="fa fa-trash" onclick="return confirm('Make sure you already remove picture on this mission?');" href="{% url 'mission:delete' id_mission=item.id %}"></a>

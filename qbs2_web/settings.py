@@ -25,7 +25,8 @@ SECRET_KEY = '(ux86woh$p!-@v_66#r)fnd3max*d9opr%ey^hxr#!d0rz6c%d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['admin.daf-q.id','*']
+# SECURE_SSL_REDIRECT = True
 
 
 # Application definition
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+    'sslserver'
 ]
 
 MIDDLEWARE = [
@@ -119,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/login'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),)
 

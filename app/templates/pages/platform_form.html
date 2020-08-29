@@ -25,9 +25,9 @@
                     <div class="row mg-b-25">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label">Platform Name: <span
+                                <label class="form-control-label">Article Name: <span
                                             class="tx-danger">*</span></label>
-                                <input required id="" class="form-control" type="text" name="platform_name" value="{{ data.platform_name }}" placeholder="">
+                                <input required id="" class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
                             </div>
                         </div>
 
@@ -43,14 +43,14 @@
                             <div class="form-group">
                                 <label class="form-control-label"><span
                                             class="tx-danger">*</span></label>
-                                <input required class="form-control" readonly type="text" id="platform_icon" name="platform_icon" value="{{ data.platform_icon }}" placeholder="">
+                                <input required class="form-control" readonly type="text" id="platform_icon" name="image" value="{{ data.image }}" placeholder="">
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group mg-b-10-force">
                                 <label class="form-control-label">Platform Detail: <span class="tx-danger">*</span></label>
-                                <input required style="word-break: break-all; height:100px" class="form-control" type="text" id="platform_detail" name="platform_detail" value="{{ data.platform_detail }}" placeholder="">
+                                <textarea required style="word-break: break-all; height:100px" class="form-control" type="text" id="detail" name="detail" value="" placeholder="">{{ data.detail }}</textarea>
                             </div>
 
                         </div>
@@ -177,7 +177,7 @@
 
         let icon = $('#platform_file').get(0).files[0]
         if (icon != null) {
-            let uploadTask = ref.child('Platform/' + icon.name).put(icon);
+            let uploadTask = ref.child('Article/' + icon.name).put(icon);
 
 
             uploadTask.on('state_changed', function(snapshot) {

@@ -35,15 +35,16 @@
                         {% for item in data %}
                         <tr id="item">
                             <td hidden>{{ item.id }}</td>
-                            <td>{{ item.platform_name }}</td>
-                            <td><a href="{{ item.platform_icon }}">Link</a></td>
+                            <td>{{ item.title }}</td>
+                            <td><a href="{{ item.image }}">Image</a></td>
                             <td>
-                                <a href="javascript:;">Detail</a>
+                                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.detail}}">Detail</button>
+
                             </td>
 
                             <td style="padding-left: 8px; padding-right: 8px">
                                 <a class="fa fa-gear" href="{% url 'platform:update' id_platform=item.id%}" style="margin-right: 5px" />
-                                <a class="fa fa-trash" onclick="delplatform('{{item.platform_icon}}', '{{item.id }}')" href="#" style="margin-left: 5px"></a>
+                                <a class="fa fa-trash" onclick="delplatform('{{item.image}}', '{{item.id }}')" href="#" style="margin-left: 5px"></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -93,7 +94,7 @@
             //console.log(name)
             var storage = firebase.storage();
             var storageRef = storage.ref();
-            var desertRef = storageRef.child('Platform/' + name);
+            var desertRef = storageRef.child('Article/' + name);
 
             // Delete the file
             desertRef.delete().then(function() {

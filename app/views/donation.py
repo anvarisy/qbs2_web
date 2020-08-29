@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from app.__firebase__ import db
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ViewAddDonation(View):
+class ViewAddDonation(LoginRequiredMixin, View):
     template = 'pages/donation_form.html'
     def get(self, request):
         return render(request, self.template, {'title':'Add Donation'})
     
-class ViewListDonation(View):
+class ViewListDonation(LoginRequiredMixin, View):
     template = 'pages/donation_list.html'
     def get(self, request):
         data_ref = db.collection('Donation')
@@ -20,14 +21,14 @@ class ViewListDonation(View):
             list_donation.append(dict_member)
         return render(request, self.template, {'title': 'List Donation', 'data':list_donation})
     
-class ViewUpdateDonation(View):
+class ViewUpdateDonation(LoginRequiredMixin, View):
     template = 'pages/donation_form.html'
     def get(self, request, id_donation):
         ref_donation = db.collection('Donation').document(id_donation)
         collection = ref_donation.get()
         return render(request, self.template, {'title':'Update Donation','data':collection.to_dict(), 'id':id_donation,})
 
-class DeleteDonation(View):
+class DeleteDonation(LoginRequiredMixin, View):
     def get(self, request, id_donation):
         donation_ref = db.collection('Donation')
         donation_doc = donation_ref.stream()
@@ -56,12 +57,12 @@ def getData(request):
     }
     return data   
 
-class PostAddDonation(View):
+class PostAddDonation(LoginRequiredMixin, View):
     def post(self, request):
         db.collection('Donation').document().set(getData(request))
         return redirect('donation:list')
 
-class PostUpdateDonation(View):
+class PostUpdateDonation(LoginRequiredMixin, View):
     def post(self, request, id_donation):
         ref = db.collection('Donation').document(id_donation)
         ref.update(getData(request))

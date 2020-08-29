@@ -25,17 +25,33 @@
                     <div class="row mg-b-25">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label">Carousel Link: <span
+                                <label class="form-control-label">Carousel Title: <span
                                             class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="carousel_link" value="{{ data.carousel_link }}" placeholder="">
+                                <input required class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label">Carousel Title: <span
+                                <label class="form-control-label">Carousel Subtitle: <span
                                             class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="carousel_title" value="{{ data.carousel_title }}" placeholder="">
+                                <input required class="form-control" type="text" name="subtitle" value="{{ data.subtitle }}" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Carousel Link: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="link" value="{{ data.link }}" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Carousel Position: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="position" value="{{ data.position }}" placeholder="">
                             </div>
                         </div>
 
@@ -55,7 +71,7 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Url: <span
                                                 class="tx-danger">*</span></label>
-                                    <input required class="form-control" readonly type="text" id="url" name="carousel_image" value="{{ data.carousel_image }}" placeholder="">
+                                    <input required class="form-control" readonly type="text" id="url" name="carousel_image" value="{{ data.image }}" placeholder="">
                                 </div>
                             </div>
                         </div>

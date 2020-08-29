@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label class="form-control-label">Mission Name: <span
                                             class="tx-danger">*</span></label>
-                                <input required id="" class="form-control" type="text" name="mission_name" value="{{ data.mission_name }}" placeholder="">
+                                <input required id="" class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
                             </div>
                         </div>
 
@@ -35,7 +35,7 @@
                             <div class="form-group">
                                 <label class="form-control-label">Mission Start: <span
                                             class="tx-danger">*</span></label>
-                                <input required id="mission_start" class="form-control" type="text" name="mission_start" value="{{ data.mission_start}}" placeholder="">
+                                <input required id="mission_start" class="form-control" type="text" name="start" value="{{ data.start}}" placeholder="">
                             </div>
                         </div>
 
@@ -43,14 +43,14 @@
                             <div class="form-group">
                                 <label class="form-control-label">Mission End: <span
                                             class="tx-danger">*</span></label>
-                                <input required id="mission_end" class="form-control" type="text" name="mission_end" value="{{ data.mission_end }}" placeholder="">
+                                <input required id="mission_end" class="form-control" type="text" name="end" value="{{ data.end }}" placeholder="">
                             </div>
                         </div>
 
                         <div class="col-lg-4">
                             <div class="form-group mg-b-10-force">
                                 <label class="form-control-label">Mission Target: <span class="tx-danger">*</span></label>
-                                <input required class="form-control" type="number" name="mission_target" value="{{ data.mission_target }}" placeholder="">
+                                <input required class="form-control" type="number" name="target" value="{{ data.target }}" placeholder="">
                             </div>
 
                         </div>
@@ -58,10 +58,11 @@
                         <div class="col-lg-4">
                             <div class="form-group mg-b-10-force">
                                 <label class="form-control-label">Mission Type: <span class="tx-danger">*</span></label>
-                                <select required class="form-control select2" data-placeholder="Type Of Priority" name="mission_type">
+                                <select required class="form-control select2" data-placeholder="Type Of Priority" name="type">
                                         <option label="Type Of Priority"></option>
-                                            <option value="i">Priority</option>
-                                            <option value="ii">Non Priority</option>
+                                            <option value="i"> Pembangunan Fasilitas & Infrastruktur Ponpes</option>
+                                            <option value="ii">Kaderisasi Guru</option>
+                                            <option value="iii">Biaya Operasional Pendidikan</option>
                                     </select>
                             </div>
 
@@ -73,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Mission detail: <span
                                                 class="tx-danger">*</span></label>
-                                    <input style="word-break: break-word; height:150px" required class="form-control" type="text" id="url" name="mission_detail" value="{{ data.mission_detail }}" placeholder="">
+                                    <input style="word-break: break-word; height:150px" required class="form-control" type="text" id="url" name="detail" value="{{ data.detail }}" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -99,7 +100,7 @@
                         <div class="col-lg-6">
                             <div class="form-group mg-b-10-force">
                                 <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
-                                <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="mission_photo" placeholder="Image Collection" name="mission_photo" value="" placeholder="">
+                                <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="mission_photo" placeholder="Image Collection" name="photos" value="" placeholder="">
                             </div>
 
                         </div>
@@ -107,7 +108,7 @@
                         <div class="col-lg-6">
                             <div class="form-group mg-b-10-force">
                                 <!-- <label class="form-control-label">Mission Picture: <span class="tx-danger">*</span></label> -->
-                                <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="mission_title" placeholder="Image Title" name="mission_title" value="" placeholder="">
+                                <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="mission_title" placeholder="Image Title" name="photo" value="" placeholder="">
                             </div>
 
                         </div>

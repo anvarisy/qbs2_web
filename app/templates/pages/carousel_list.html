@@ -25,9 +25,11 @@
                     <thead>
                         <tr>
                             <th hidden></th>
-                            <th class="wd-25p">Carousel Name</th>
-                            <th class="wd-15p">Carousel Link</th>
-                            <th class="wd-20p">Carousel Image</th>
+                            <th class="wd-25p">Title</th>
+                            <th class="wd-15p">Subtitle</th>
+                            <th class="wd-15p">Image</th>
+                            <th class="wd-15p">Link</th>
+                            <th class="wd-10p">Position</th>
                             <th class="wd-5p"></th>
                         </tr>
                     </thead>
@@ -35,13 +37,16 @@
                         {% for item in data %}
                         <tr id="item">
                             <td hidden>{{ item.id }}</td>
-                            <td>{{ item.carousel_title }}</td>
-                            <td>{{ item.carousel_link }}</td>
-                            <td><a href="{{ item.carousel_image }}">Link</a></td>
-
+                            <td>{{ item.title }}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.subtitle}}">Detail</button>
+                            </td>
+                            <td><a href="{{ item.image }}">Image</a></td>
+                            <td><a href="{{ item.link }}">Link</a></td>
+                            <td>{{ item.position }}</td>
                             <td style="padding-left: 8px; padding-right: 8px">
                                 <a class="fa fa-gear" href="{% url 'carousel:update' id_carousel=item.id %}" style="margin-right: 5px" />
-                                <a class="fa fa-trash" onclick="delcarousel('{{item.carousel_image}}','{{item.id}}')" id="delete-item" class="fa fa-gear" href="javascript:;" style="margin-left: 5px" />
+                                <a class="fa fa-trash" onclick="delcarousel('{{item.image}}','{{item.id}}')" id="delete-item" class="fa fa-gear" href="javascript:;" style="margin-left: 5px" />
                             </td>
                         </tr>
                         {% endfor %}

@@ -1,0 +1,229 @@
+{% extends 'Root.html' %} {% load static %} {% block css %}
+<!-- vendor css -->
+<link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+<link href="{% static 'lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
+<link href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+<link href="{% static 'lib/highlightjs/github.css' %}" rel="stylesheet">
+<link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet">
+<link href="{% static 'lib/spectrum/spectrum.css' %}" rel="stylesheet">
+<link href="{% static 'lib/SpinKit/spinkit.css' %}" rel="stylesheet">
+<!-- Starlight CSS -->
+<link rel="stylesheet" href="{% static 'css/starlight.css' %}"> {% endblock css %} {% block navbar %} {% include 'Menu.html' %} {% endblock navbar %} {% block content %}
+
+<div class="sl-mainpanel">
+    <div class="sl-pagebody">
+        <div class="sl-page-title">
+            <h5>{{title}}</h5>
+        </div>
+        <!-- sl-page-title -->
+
+        <div class="card pd-10 pd-sm-30">
+
+            <form method="post" name="member" enctype="multipart/form-data" data-parsley-validate>
+                {% csrf_token %}
+                <div class="form-layout">
+                    <div class="row mg-b-25">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Title: <span
+                                            class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Position: <span
+                                            class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="position" value="{{ data.position }}" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Detail: <span
+                                            class="tx-danger">*</span></label>
+                                <input required style="overflow-wrap: break-word; height:150px" class="form-control" type="text" name="detail" value="{{ data.detail }}" placeholder="">
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label onclick="upload()" class="form-control-label">Upload <span
+                                            class="fa fa-cloud"></span></label>
+
+                                <input class="form-control" type="file" id="image" name="image" value="" placeholder="Id card">
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="form-control-label">Url: <span
+                                                class="tx-danger">*</span></label>
+                                    <input required class="form-control" readonly type="text" id="url" name="image" value="{{ data.image }}" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="l1" class="form-group">
+                                <div id="wave" class="sk-wave">
+                                    <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                                    <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                                    <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                                    <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                                    <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-layout-footer">
+                        {% if id != None %}
+                        <button formaction="{%url 'walk:post-update' id_walk=id%}" id="update" class="btn btn-info mg-r-5">Update Form
+                                </button> {% else %}
+                        <button formaction="{% url 'walk:post-add'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
+                                </button> {% endif %}
+
+                        <button id="cancel" class="btn btn-secondary">Cancel</button>
+                    </div>
+                    <!-- form-layout-footer -->
+                    <!-- form-layout -->
+                </div>
+            </form>
+        </div>
+        <!-- card -->
+
+    </div>
+    <!-- sl-pagebody -->
+
+    {% include 'Footer.html' %}
+</div>
+
+{% endblock content %} {% block script %}
+<script src="{% static 'lib/jquery/jquery.js' %}"></script>
+<script src="{% static 'lib/popper.js/popper.js' %}"></script>
+<script src="{% static 'lib/bootstrap/bootstrap.js' %}"></script>
+<script src="{% static 'lib/jquery-ui/jquery-ui.js' %}"></script>
+<script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+<script src="{% static 'lib/highlightjs/highlight.pack.js' %}"></script>
+<script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/spectrum/spectrum.js' %}"></script>
+<script src="{% static 'he/he.js' %}"></script>
+<script src="{% static 'js/starlight.js' %}"></script>
+<script>
+    $(function() {
+
+        'use strict';
+
+        $('.select2').select2({
+            minimumResultsForSearch: Infinity
+        });
+
+        // Select2 by showing the search
+        $('.select2-show-search').select2({
+            minimumResultsForSearch: ''
+        });
+
+        // Select2 with tagging support
+        $('.select2-tag').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        // Datepicker
+        $('.fc-datepicker').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true
+        });
+
+        $('#dob').datepicker({
+            showOtherMonths: false,
+            selectOtherMonths: false,
+            changeYear: true,
+            changeMonth: true
+        });
+
+        // Color picker
+        $('#colorpicker').spectrum({
+            color: '#17A2B8'
+        });
+
+        $('#showAlpha').spectrum({
+            color: 'rgba(23,162,184,0.5)',
+            showAlpha: true
+        });
+
+        $('#showPaletteOnly').spectrum({
+            showPaletteOnly: true,
+            showPalette: true,
+            color: '#DC3545',
+            palette: [
+                ['#1D2939', '#fff', '#0866C6', '#23BF08', '#F49917'],
+                ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
+            ]
+        });
+
+    });
+    $("#province").val("{{ data.province }}").change()
+    $("#status").val("{{ data.status }}").change()
+    let profession = []
+    profession = htmlDecode("{{ data.profession }}")
+    let r_profession = profession.substring(1, profession.length - 1)
+    r_profession = r_profession.replace(/[&\/\\#+()$~%.'":*?<>{}]/g, '')
+    let array_1 = r_profession.split(", ")
+    $("#profession").val(array_1)
+
+    $('#wave').hide()
+
+
+    function upload() {
+        var ref = firebase.storage().ref();
+
+        let card_file = $('#image').get(0).files[0]
+        if (card_file != null) {
+            let uploadTask = ref.child('Walk/' + card_file.name).put(card_file);
+
+
+            uploadTask.on('state_changed', function(snapshot) {
+                $('#wave').show()
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                // Handle unsuccessful uploads
+            }, function() {
+                $('#wave').hide()
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log('File available at', downloadURL);
+                    $('#url').val(downloadURL)
+                });
+            });
+        } else {
+            alert('Select file first')
+        }
+
+    }
+
+
+    function htmlDecode(input) {
+        var doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
+</script>
+{% endblock %}
