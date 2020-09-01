@@ -25,29 +25,28 @@
                     <thead>
                         <tr>
                             <th hidden></th>
-                            <th class="wd-20p">Title</th>
-                            <th class="wd-5p">Start</th>
-                            <th class="wd-5p">End</th>
-                            <th class="wd-15p">Target</th>
-                            <th class="wd-10p"></th>
+                            <th class="wd-15p">Name</th>
+                            <th class="wd-15p">Email</th>
+                            <th class="wd-15p">Phone</th>
+                            <th class="wd-10p">Credit</th>
+                            <th class="wd-10p">Debit</th>
+                            <th class="wd-10p">Tgl</th>
+                            <!-- <th class="wd-5p"></th> -->
                         </tr>
                     </thead>
-                    <tbody id="member-content">
+                    <tbody>
                         {% for item in data %}
                         <tr id="item">
                             <td hidden>{{ item.id }}</td>
-                            <td>{{ item.title }}</td>
-                            <td>{{ item.start }}</td>
-                            <td>{{ item.end }}</td>
-                            <td>{{ item.t }}</td>
-
-                            <td style="padding-left: 8px; padding-right: 8px">
-                                <a class="icon ion-compose" href="{% url 'mission:detail' id_mission=item.id %}" style="margin-right: 7px"></a>
-                                <a class="fa fa-book" href="{% url 'mission:update-report' id_mission=item.id %}" style="margin-right: 7px"></a>
-                                <a class="fa fa-gear" href="{% url 'mission:update' id_mission=item.id %}" style="margin-right: 7px"></a>
-                                <a class="fa fa-image" href="{% url 'mission:update-image' id_mission=item.id %}" style="margin-right: 7px"></a>
-                                <a class="fa fa-trash" onclick="return confirm('Make sure you already remove picture on this mission?');" href="{% url 'mission:delete' id_mission=item.id %}"></a>
-                            </td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.phone }}</td>
+                            <td>{{ item.credit }}</td>
+                            <td>{{ item.debit }}</td>
+                            <td>{{ item.date }}</td>
+                            <!-- <td style="padding-left: 8px; padding-right: 8px">
+                                <a class="fa fa-trash" onclick="delcarousel('{{item.image}}','{{item.id}}')" id="delete-item" class="fa fa-gear" href="javascript:;" style="margin-left: 5px" />
+                            </td> -->
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -75,13 +74,8 @@
 <script src="{% static 'lib/datatables/jquery.dataTables.js' %}"></script>
 <script src="{% static 'lib/datatables-responsive/dataTables.responsive.js' %}"></script>
 <script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
-
 <script src="{% static 'js/starlight.js' %}"></script>
 <script>
-    function formatMoney(money) {
-        return Number.parseFloat(money).toFixed(2);
-    }
-
     $('#datatable1').DataTable({
         responsive: true,
         language: {
@@ -91,8 +85,30 @@
         }
     });
 
-    function showOption(id) {
 
+    function delcarousel(imagePath, id) {
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+            let name = imagePath.substr(imagePath.indexOf('%2F') + 3, (imagePath.indexOf('?')) - (imagePath.indexOf('%2F') + 3));
+            name = name.replace('%20', ' ');
+            //console.log(name)
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var desertRef = storageRef.child('Carousel/' + name);
+
+            // Delete the file
+            desertRef.delete().then(function() {
+                // File deleted successfully
+                window.location.href = "/carouseldelete/" + id
+            }).catch(function(error) {
+                // Uh-oh, an error occurred!
+            });
+
+
+        } else {
+            console.log('Cancel')
+            return
+        }
     }
 </script>
 {% endblock script %}

@@ -9,6 +9,7 @@ from app.views.visimisi import *
 from app.views.user import *
 from app.views.walkthrough import *
 from app.views.payment import *
+from app.views.proposal import *
 
 urlpatterns = [
     path('', ViewHomePage.as_view(), name='home'),
@@ -65,6 +66,8 @@ urlpatterns = [
         path('update/<str:id_mission>', ViewUpdateFormMission.as_view(), name='update'),
         path('detail/<str:id_mission>', ViewDetailMission.as_view(), name='detail'),
         path('update-image/<str:id_mission>', ViewUpdateImageMission.as_view(), name='update-image'),
+        path('update-report/<str:id_mission>',ViewUpdateReport.as_view(), name='update-report'),
+         path('post-update-report',PostUpdateReport.as_view(), name='post-update-report'),
         #  path('delete-collection/<str:id_mission>/?P<path>', DeleteImageCollection.as_view(), name='delete-collection'),
         path('update-image-title', UpdateImageTitle.as_view(), name='update-image-title'),
         path('update-image-col', UpdateImageCollection.as_view(), name='update-image-col'),
@@ -94,7 +97,11 @@ urlpatterns = [
          path('update/<str:id_walk>', ViewUpdateWalkthrough.as_view(), name='update'),
          path('delete/<str:id_walk>', DeleteWalk.as_view(), name='delete')
          
-     ],'walk')))
+     ],'walk'))),
+     path('proposal', include(([
+        path('list', ViewProposal.as_view(),name='list'),
+        path('list-ii', ViewTransaction.as_view(),name='list-ii')    
+     ],'proposal')))
   
     
 ]

@@ -65,6 +65,24 @@ class ViewUpdateImageMission(LoginRequiredMixin, View):
         
         return render(request, self.template,{'title':'Update Image','data':list_image,'id':id_mission})
 
+class ViewUpdateReport(LoginRequiredMixin, View):
+    template = 'pages/mission_report.html'
+    def get(self, request, id_mission):
+        ref =  db.collection('Missions').document(id_mission)
+        collection = ref.get()
+        list_ = []
+        list_.append({'report':collection.to_dict()['report']})  
+        print(list_)    
+        return render(request, self.template,{'title':'Update Report','data':list_, 'id':id_mission})
+        
+class PostUpdateReport(LoginRequiredMixin, View):
+    def post(self, request):
+        report = request.POST['report']
+        id = request.POST['id']
+        ref = db.collection('Missions').document(id)
+        ref.update({'report':report})
+        return HttpResponse('OK')
+
 class DeleteMission(LoginRequiredMixin, View):
     def get(self, request, id_mission):
         ref_mission = db.collection('Missions')
@@ -96,6 +114,7 @@ class PostAddMission(LoginRequiredMixin, View):
         'type':kind,
         'detail': detail,
         'photos':photos,
+        'report':'-',
         'collected':['0']
         
     }
