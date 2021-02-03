@@ -15,14 +15,14 @@ class ViewAddMission(LoginRequiredMixin, View):
 class ViewDetailMission(LoginRequiredMixin, View):
     template = 'pages/donation_detail.html'
     def get(self, request, id_mission):
-        datas = db.collection('Donations').where('mis_id', '==', id_mission).stream()
+        datas = db.collection('s-transactions').where('mis_id', '==', id_mission).stream()
         list_donation = []
         list_amount = []
         for donation in datas:
             dict_member = donation.to_dict()
             dict_member['id'] = donation.id
             list_donation.append(dict_member)
-            list_amount.append(donation.to_dict()['amount'])
+            list_amount.append(int(donation.to_dict()['gross_amount']))
         return render(request, self.template, {'data':list_donation, 'title':'Detail', 'total':"{:,.2f}".format(sum(list_amount))})
     
 class ViewListMission(LoginRequiredMixin, View):

@@ -41,9 +41,14 @@
                             <td>{{ item.name }}</td>
                             <td>{{ item.email }}</td>
                             <td>{{ item.phone }}</td>
-                            <td>{{ item.credit }}</td>
-                            <td>{{ item.debit }}</td>
-                            <td>{{ item.date }}</td>
+                            {%if item.mis_name == 'Credit'%}
+                            <td>{{ item.gross_amount }}</td>
+                            <td>0</td>
+                            {%else%}
+                            <td>0</td>
+                            <td>{{ item.gross_amount }}</td>
+                            {%endif%}
+                            <td>{{ item.transaction_time }}</td>
                             <!-- <td style="padding-left: 8px; padding-right: 8px">
                                 <a class="fa fa-trash" onclick="delcarousel('{{item.image}}','{{item.id}}')" id="delete-item" class="fa fa-gear" href="javascript:;" style="margin-left: 5px" />
                             </td> -->

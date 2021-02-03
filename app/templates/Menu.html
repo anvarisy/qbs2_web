@@ -80,6 +80,21 @@
             </ul>
         </a>
 
+
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
+                <span class="menu-item-label">Article-Web</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div>
+            <!-- menu-item -->
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="{%url 'article:add'%}" class="nav-link">Add For Web</a></li>
+                <li class="nav-item"><a href="{%url 'article:list'%}" class="nav-link">List For Web</a></li>
+            </ul>
+        </a>
+
+
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
@@ -104,6 +119,18 @@
                 <li class="nav-item"><a href="{% url 'walk:list'%}" class="nav-link">List</a></li>
             </ul>
         </a>
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
+                <span class="menu-item-label">Struktur Anggota</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div>
+            <!-- menu-item -->
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="{%url 'structure:add'%}" class="nav-link">Add</a></li>
+                <li class="nav-item"><a href="{%url 'structure:list'%}" class="nav-link">List</a></li>
+            </ul>
+        </a>
         <a href="{% url 'proposal:list'%}" class="sl-menu-link">
             <div class="sl-menu-item">
                 <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
@@ -114,6 +141,12 @@
             <div class="sl-menu-item">
                 <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
                 <span class="menu-item-label">Transaction</span>
+            </div>
+        </a>
+        <a href="{% url 'proposal:list-iii'%}" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
+                <span class="menu-item-label">Pengaduan</span>
             </div>
         </a>
         <a href="{% url 'logout' %}" class="sl-menu-link">

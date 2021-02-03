@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'sslserver'
+    'sslserver',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login'
+AUTH_USER_MODEL = "app.user" 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),)
 

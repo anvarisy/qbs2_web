@@ -14,7 +14,7 @@
 
     <div class="sl-pagebody">
         <div class="sl-page-title">
-            <h5>Terkumpul : {{total}}</h5>
+            <h5>{{title}}</h5>
         </div>
         <!-- sl-page-title -->
 
@@ -25,20 +25,27 @@
                     <thead>
                         <tr>
                             <th hidden></th>
-                            <th class="wd-25p">Mission</th>
-                            <th class="wd-15p">Donatur</th>
-                            <th class="wd-20p">Date</th>
-                            <th class="wd-20p">Value</th>
+                            <th class="wd-25p">Article Name</th>
+                            <th class="wd-15p">Article Icon</th>
+                            <th class="wd-20p">Article Detail</th>
+                            <th class="wd-5p"></th>
                         </tr>
                     </thead>
                     <tbody id="member-content">
                         {% for item in data %}
                         <tr id="item">
                             <td hidden>{{ item.id }}</td>
-                            <td>{{ item.mis_name }}</td>
-                            <td>{{ item.p_name }}</td>
-                            <td>{{ item.transaction_time }}</td>
-                            <td>{{ item.gross_amount}}</td>
+                            <td>{{ item.title }}</td>
+                            <td><a href="{{ item.image }}">Image</a></td>
+                            <td>
+                                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.detail}}">Detail</button>
+
+                            </td>
+
+                            <td style="padding-left: 8px; padding-right: 8px">
+                                <a class="fa fa-gear" href="{% url 'article:update' id_article=item.id%}" style="margin-right: 5px">
+                                    <a class="fa fa-trash" onclick="delplatform('{{item.image}}', '{{item.id }}')" href="#" style="margin-left: 5px"></a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -78,8 +85,30 @@
         }
     });
 
-    function showOption(id) {
 
+    function delplatform(imagePath, id) {
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+            let name = imagePath.substr(imagePath.indexOf('%2F') + 3, (imagePath.indexOf('?')) - (imagePath.indexOf('%2F') + 3));
+            name = name.replace('%20', ' ');
+            //console.log(name)
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var desertRef = storageRef.child('Article-Web/' + name);
+
+            // Delete the file
+            desertRef.delete().then(function() {
+                // File deleted successfully
+                window.location.href = "/articledelete/" + id
+            }).catch(function(error) {
+                // Uh-oh, an error occurred!
+            });
+
+
+        } else {
+            console.log('Cancel')
+            return
+        }
     }
 </script>
 {% endblock script %}

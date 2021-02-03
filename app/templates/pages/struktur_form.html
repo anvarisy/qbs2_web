@@ -25,33 +25,47 @@
                     <div class="row mg-b-25">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label">Carousel Title: <span
+                                <label class="form-control-label">Nama: <span
                                             class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
+                                <input required class="form-control" type="text" name="name" value="{{ data.name }}" placeholder="">
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-control-label">Carousel Subtitle: <span
+                                <label class="form-control-label">Posisi: <span
                                             class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="subtitle" value="{{ data.subtitle }}" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Link: <span
-                                                class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="link" value="{{ data.link }}" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Position: <span
-                                                class="tx-danger">*</span></label>
                                 <input required class="form-control" type="text" name="position" value="{{ data.position }}" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">WA: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="wa" value="{{ data.wa }}" placeholder="Ex 62852195292">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Link FB: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="fb" value="{{ data.fb }}" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Link IG: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="ig" value="{{ data.ig }}" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Index Position: <span
+                                                class="tx-danger">*</span></label>
+                                <input required class="form-control" type="text" name="pos" value="{{ data.pos }}" placeholder="">
                             </div>
                         </div>
 
@@ -71,7 +85,7 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Akan Otomatis Terisi : <span
                                                 class="tx-danger">*</span></label>
-                                    <input required class="form-control" readonly type="text" id="url" name="carousel_image" value="{{ data.image }}" placeholder="">
+                                    <input required class="form-control" readonly type="text" id="url" name="photo" value="{{ data.photo }}" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -93,9 +107,9 @@
 
                     <div class="form-layout-footer">
                         {% if id != None %}
-                        <button formaction="{%url 'carousel:post-update' id_carousel=id%}" id="update" class="btn btn-info mg-r-5">Update Form
+                        <button formaction="{% url 'structure:post-update' id_structure=id%}" id="update" class="btn btn-info mg-r-5">Update Form
                                 </button> {% else %}
-                        <button formaction="{% url 'carousel:post-add'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
+                        <button formaction="{% url 'structure:post-add'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
                                 </button> {% endif %}
 
                         <button id="cancel" class="btn btn-secondary">Cancel</button>
@@ -195,7 +209,7 @@
 
         let card_file = $('#image').get(0).files[0]
         if (card_file != null) {
-            let uploadTask = ref.child('Carousel/' + card_file.name).put(card_file);
+            let uploadTask = ref.child('Structure/' + card_file.name).put(card_file);
 
 
             uploadTask.on('state_changed', function(snapshot) {

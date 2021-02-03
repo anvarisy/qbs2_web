@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from firebase_admin import auth
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView, LogoutView
 
 class ViewUser(View):
     template = 'pages/user_list.html'
@@ -15,10 +17,9 @@ class ViewUser(View):
         print(list_)
         return render(request, self.template,{'title':'List User', 'data':list_})
 
-class ViewLogin(View):
-    template = 'pages/page-signin.html'
-    def get(self, request):
-        return render(request, self.template)
+class ViewLogin(LoginView):
+    template_name = 'pages/page-signin.html'
+    success_url = reverse_lazy('home')
 
 class PostLogin(View):
     status = ''

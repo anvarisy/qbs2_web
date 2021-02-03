@@ -10,6 +10,9 @@ from app.views.user import *
 from app.views.walkthrough import *
 from app.views.payment import *
 from app.views.proposal import *
+from app.views.article import ViewAddArticle, ViewListArticle, ViewUpdateArticle,\
+DeleteArticle, PostAddArticle, PostUpdateArticle
+from app.views.structure import *
 
 urlpatterns = [
     path('', ViewHomePage.as_view(), name='home'),
@@ -60,6 +63,14 @@ urlpatterns = [
         path('post-add', PostAddPlatform.as_view(), name='post-add'),
         path('post-update/<str:id_platform>', PostUpdatePlatform.as_view(), name='post-update')
     ],'platform'))),
+    path('article',include(([
+        path('add', ViewAddArticle.as_view(), name='add'),
+        path('list', ViewListArticle.as_view(), name='list'),
+        path('update/<str:id_article>', ViewUpdateArticle.as_view(), name='update'),
+        path('delete/<str:id_article>', DeleteArticle.as_view(), name='delete'),
+        path('post-add', PostAddArticle.as_view(), name='post-add'),
+        path('post-update/<str:id_platform>', PostUpdateArticle.as_view(), name='post-update')
+    ],'article'))),
      path('mission', include(([
         path('add', ViewAddMission.as_view(), name='add'),
         path('list', ViewListMission.as_view(), name='list'),
@@ -100,8 +111,17 @@ urlpatterns = [
      ],'walk'))),
      path('proposal', include(([
         path('list', ViewProposal.as_view(),name='list'),
-        path('list-ii', ViewTransaction.as_view(),name='list-ii')    
-     ],'proposal')))
+        path('list-ii', ViewTransaction.as_view(),name='list-ii'),
+        path('list-iii', ViewPengaduan.as_view(),name='list-iii'),    
+     ],'proposal'))),
+     path('structure',include(([
+         path('add', ViewAddSctucture.as_view(), name='add'),
+         path('list',ViewListStructure.as_view(), name='list'),
+         path('update/<str:id_structure>',ViewUpadateStructure.as_view(), name='update'),
+         path('delete/<str:id_structure>',DeleteStructure.as_view(), name='delete'),
+         path('post-add', PostAddStructure.as_view(), name='post-add'),
+         path('post-update/<str:id_structure>', PostUpdateStructure.as_view(), name='post-update')
+     ],'structure')))
   
     
 ]
