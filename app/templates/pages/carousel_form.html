@@ -1,129 +1,83 @@
 {% extends 'Root.html' %} {% load static %} {% block css %}
 <!-- vendor css -->
-<link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
-<link href="{% static 'lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
-<link href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
-<link href="{% static 'lib/highlightjs/github.css' %}" rel="stylesheet">
-<link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet">
-<link href="{% static 'lib/spectrum/spectrum.css' %}" rel="stylesheet">
-<link href="{% static 'lib/SpinKit/spinkit.css' %}" rel="stylesheet">
-<!-- Starlight CSS -->
-<link rel="stylesheet" href="{% static 'css/starlight.css' %}"> {% endblock css %} {% block navbar %} {% include 'Menu.html' %} {% endblock navbar %} {% block content %}
-
-<div class="sl-mainpanel">
-    <div class="sl-pagebody">
-        <div class="sl-page-title">
-            <h5>{{title}}</h5>
-        </div>
-        <!-- sl-page-title -->
-
-        <div class="card pd-10 pd-sm-30">
-
-            <form method="post" name="member" enctype="multipart/form-data" data-parsley-validate>
-                {% csrf_token %}
-                <div class="form-layout">
-                    <div class="row mg-b-25">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Title: <span
-                                            class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Subtitle: <span
-                                            class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="subtitle" value="{{ data.subtitle }}" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Link: <span
-                                                class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="link" value="{{ data.link }}" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Carousel Position: <span
-                                                class="tx-danger">*</span></label>
-                                <input required class="form-control" type="text" name="position" value="{{ data.position }}" placeholder="">
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label onclick="upload()" class="form-control-label">Upload <span
-                                            class="fa fa-cloud"></span></label>
-
-                                <input class="form-control" type="file" id="image" name="image" value="" placeholder="Id card">
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label class="form-control-label">Akan Otomatis Terisi : <span
-                                                class="tx-danger">*</span></label>
-                                    <input required class="form-control" readonly type="text" id="url" name="carousel_image" value="{{ data.image }}" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div id="l1" class="form-group">
-                                <div id="wave" class="sk-wave">
-                                    <div class="sk-rect sk-rect1 bg-gray-800"></div>
-                                    <div class="sk-rect sk-rect2 bg-gray-800"></div>
-                                    <div class="sk-rect sk-rect3 bg-gray-800"></div>
-                                    <div class="sk-rect sk-rect4 bg-gray-800"></div>
-                                    <div class="sk-rect sk-rect5 bg-gray-800"></div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-                    <div class="form-layout-footer">
-                        {% if id != None %}
-                        <button formaction="{%url 'carousel:post-update' id_carousel=id%}" id="update" class="btn btn-info mg-r-5">Update Form
-                                </button> {% else %}
-                        <button formaction="{% url 'carousel:post-add'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
-                                </button> {% endif %}
-
-                        <button id="cancel" class="btn btn-secondary">Cancel</button>
-                    </div>
-                    <!-- form-layout-footer -->
-                    <!-- form-layout -->
+{% endblock css %} 
+{% block content %}
+<form method="post" name="member" enctype="multipart/form-data" data-parsley-validate>
+    {% csrf_token %}
+    <div class="form-layout">
+        <div class="row mg-b-25">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label">Carousel Title: <span
+                                class="tx-danger">*</span></label>
+                    <input required class="form-control" type="text" name="title" value="{{ data.title }}" placeholder="">
                 </div>
-            </form>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label">Carousel Subtitle: <span
+                                class="tx-danger">*</span></label>
+                    <input required class="form-control" type="text" name="subtitle" value="{{ data.subtitle }}" placeholder="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label">Carousel Link: <span
+                                    class="tx-danger">*</span></label>
+                    <input required class="form-control" type="text" name="link" value="{{ data.link }}" placeholder="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label">Carousel Position: <span
+                                    class="tx-danger">*</span></label>
+                    <input required class="form-control" type="text" name="position" value="{{ data.position }}" placeholder="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label onclick="upload()" class="form-control-label">Upload <span
+                                class="fa fa-cloud"></span></label>
+
+                    <input class="form-control" type="file" id="image" name="image" value="" placeholder="Id card">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label class="form-control-label">Akan Otomatis Terisi : <span
+                                    class="tx-danger">*</span></label>
+                        <input required class="form-control" readonly type="text" id="url" name="carousel_image" value="{{ data.image }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div id="l1" class="form-group">
+                    <div id="wave" class="sk-wave">
+                        <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <!-- card -->
+        <div class="form-layout-footer">
+            {% if id != None %}
+            <button formaction="{%url 'carousel:post-update' id_carousel=id%}" id="update" class="btn btn-info mg-r-5">Update Form
+                    </button> {% else %}
+            <button formaction="{% url 'carousel:post-add'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
+                    </button> {% endif %}
 
+            <button id="cancel" class="btn btn-secondary">Cancel</button>
+        </div>
+        <!-- form-layout-footer -->
+        <!-- form-layout -->
     </div>
-    <!-- sl-pagebody -->
-
-    {% include 'Footer.html' %}
-</div>
-
+</form>
 {% endblock content %} {% block script %}
-<script src="{% static 'lib/jquery/jquery.js' %}"></script>
-<script src="{% static 'lib/popper.js/popper.js' %}"></script>
-<script src="{% static 'lib/bootstrap/bootstrap.js' %}"></script>
-<script src="{% static 'lib/jquery-ui/jquery-ui.js' %}"></script>
-<script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
-<script src="{% static 'lib/highlightjs/highlight.pack.js' %}"></script>
-<script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
-<script src="{% static 'lib/spectrum/spectrum.js' %}"></script>
-<script src="{% static 'he/he.js' %}"></script>
-<script src="{% static 'js/starlight.js' %}"></script>
 <script>
     $(function() {
 

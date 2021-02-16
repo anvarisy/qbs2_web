@@ -1,0 +1,86 @@
+<div class="sl-pagebody">
+    <div class="card pd-10 pd-sm-30">
+        <div class="table-wrapper">
+            <table class="table display responsive nowrap">
+                <thead>
+                    <tr>
+                        <th hidden></th>
+                        <th class="wd-45p">Kategori</th>
+                        <th class="wd-45p">Logo Kategori</th>
+                        <!-- <th class="wd-5p">status</th> -->
+                    </tr>
+                </thead>
+                <tbody id="member-content">
+                    {% for item in categories %}
+                    <tr id="item">
+                        <td hidden>{{ item.id }}</td>
+                        <td>{{item.category_name}}</td>
+                        <td><a href="{{ item.category_image}}">Link</a></td>
+                        <!-- <td>{{item.status}}</td> -->
+        
+                        <td style="padding-left: 8px; padding-right: 8px">
+                            {% if item.type != 'Title'%}
+                            <a class="fa fa-trash" onclick="deletes_category('{{item.category_image}}','{{item.id}}')" href="javascript:;"></a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!--Form Video-->
+        <form method="post" name="category" enctype="multipart/form-data" data-parsley-validate>
+            {% csrf_token %}
+            <div class="form-layout">
+                <div class="row mg-b-25">
+                    <div class="col-lg-12">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Kategory</label>
+                            <input class="form-control" type="text" id="category_name" name="category_name">
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <label onclick="upload_category()" class="form-control-label">Logo Kategori<span
+                                    class="fa fa-cloud"></span></label>
+                            <input class="form-control" type="file" id="category_icon" name="category_icon">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
+                            <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="category_image" placeholder="" name="category_image" value="" placeholder="">
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div id="l1" class="form-group">
+                            <div id="wave_cat" class="sk-wave">
+                                <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-layout-footer">
+                    <button formaction="{% url 'stfq:market-categoty'%}" class="btn btn-secondary">Add Category</button>
+                </div>
+                <!-- form-layout-footer -->
+                <!-- form-layout -->
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+
+</script>

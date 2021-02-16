@@ -1,0 +1,465 @@
+{%extends 'Root.html'%}
+{%block content%}
+<div class="table-wrapper">
+    <table class="table display responsive nowrap">
+        <thead>
+            <tr>
+                <th hidden></th>
+                <th class="wd-25p">Toko</th>
+                <th class="wd-15p">Alamat</th>
+                <th class="wd-15p">Logo</th>
+                <th class="wd-15p">Pemilik</th>
+                <th class="wd-10p">Kode Kota</th>
+                <th class="wd-5p"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in tenants %}
+            <tr id="item">
+                <td hidden>{{ item.id }}</td>
+                <td>{{ item.tenant_name }}</td>
+                <td>
+                    <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Address" data-content="{{item.tenant_address}}">Address</button>
+                </td>
+                <td><a href="{{ item.tenant_image }}">Image</a></td>
+                <td>{{ item.tenant_owner }}</td>
+                <td>{{ item.tenant_city_code }}</td>
+                <td style="padding-left: 8px; padding-right: 8px">
+                    <a class="fa fa-trash" onclick="deletes('{{item.tenant_image}}','{{item.id}}')" id="delete-item" href="javascript:;" style="margin-left: 5px"></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="form-layout">
+    <div class="row mg-b-25">
+        <form method="post" name="member" enctype="multipart/form-data" data-parsley-validate>
+            {% csrf_token %}
+            <div class="form-layout">
+                <div class="row mg-b-25">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Nama Toko: <span
+                                        class="tx-danger">*</span></label>
+                            <input required class="form-control" type="text" name="tenant_name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Pemilik: <span
+                                        class="tx-danger">*</span></label>
+                            <input required class="form-control" type="text" name="tenant_owner" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Kode Kota: <span
+                                            class="tx-danger">*</span></label>
+                                <select class="form-control select2-show-search" data-placeholder="City Code" name='tenant_city_code'>
+                                    {%for item in cities%}
+                                    <option value="{{item.city_id}}">{{item.city_name}}</option>
+                                    {%endfor%}
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Alamat: <span
+                                            class="tx-danger">*</span></label>
+                            <input style="height: 130px;" required class="form-control"  name="tenant_address" type="text" name="link" placeholder="">
+                        </div>
+                    </div>
+                 
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label onclick="upload()" class="form-control-label">Upload Tenant Icon<span
+                                        class="fa fa-cloud"></span></label>
+        
+                            <input class="form-control" type="file" id="tenant_icon"  value="" placeholder="Id card">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label class="form-control-label">Akan Otomatis Terisi : <span
+                                            class="tx-danger">*</span></label>
+                                <input required class="form-control" readonly type="text" id="url" name="tenant_image" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="l1" class="form-group">
+                            <div id="wave" class="sk-wave">
+                                <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="form-layout-footer">
+                    <button formaction="{% url 'stfq:market'%}" id="submit" class="btn btn-info mg-r-5">Submit Form
+                            </button> 
+                </div>
+                <!-- form-layout-footer -->
+                <!-- form-layout -->
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock content%}
+{%block content2%}
+{%include 'pages/stfq_market_categories.html'%}
+{%endblock content2%}
+{%block content3%}
+{%include 'pages/stfq_market_stuff.html'%}
+{%endblock content3%}
+{%block script%}
+<script>
+    $('#wave').hide()
+    $('#wave_cat').hide()
+    $('#wave_stuff').hide()
+    $('#wave_stuffes').hide()
+    let list_url = []
+    function upload() {
+        var ref = firebase.storage().ref();
+
+        let card_file = $('#tenant_icon').get(0).files[0]
+        if (card_file != null) {
+            let uploadTask = ref.child('Market/' + card_file.name).put(card_file);
+
+
+            uploadTask.on('state_changed', function(snapshot) {
+                $('#wave').show()
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                // Handle unsuccessful uploads
+            }, function() {
+                $('#wave').hide()
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log('File available at', downloadURL);
+                    $('#url').val(downloadURL)
+                });
+            });
+        } else {
+            alert('Select file first')
+        }
+
+    }
+
+    function upload_category() {
+        var ref = firebase.storage().ref();
+
+        let card_file = $('#category_icon').get(0).files[0]
+        if (card_file != null) {
+            let uploadTask = ref.child('Market/' + card_file.name).put(card_file);
+
+
+            uploadTask.on('state_changed', function(snapshot) {
+                $('#wave_cat').show()
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                // Handle unsuccessful uploads
+            }, function() {
+                $('#wave_cat').hide()
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log('File available at', downloadURL);
+                    $('#category_image').val(downloadURL)
+                });
+            });
+        } else {
+            alert('Select file first')
+        }
+
+    }
+
+    function deletes(imagePath, id) {
+        console.log(imagePath)
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+            let name = imagePath.substr(imagePath.indexOf('%2F') + 3, (imagePath.indexOf('?')) - (imagePath.indexOf('%2F') + 3));
+            name = name.replace('%20', ' ');
+            //console.log(name)
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var desertRef = storageRef.child('Market/' + name);
+
+            // Delete the file
+            desertRef.delete().then(function() {
+                // File deleted successfully
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": $.cookie("csrftoken")
+                    },
+                    type: "POST",
+                    url: "{% url 'stfq:market' %}",
+                    data: {
+                        type:'delete',
+                        id:id,
+                        path: imagePath
+                    },
+                    success: function(data) {
+                        if (data == "OK") {
+                            location.reload()
+                        }
+                    }
+                });
+
+            }).catch(function(error) {
+                // Uh-oh, an error occurred!
+            });
+
+
+        } else {
+            console.log('Cancel')
+            return
+        }
+    }
+
+    function deletes_category(imagePath, id) {
+        console.log(imagePath)
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+            let name = imagePath.substr(imagePath.indexOf('%2F') + 3, (imagePath.indexOf('?')) - (imagePath.indexOf('%2F') + 3));
+            name = name.replace('%20', ' ');
+            //console.log(name)
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var desertRef = storageRef.child('Market/' + name);
+
+            // Delete the file
+            desertRef.delete().then(function() {
+                // File deleted successfully
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": $.cookie("csrftoken")
+                    },
+                    type: "POST",
+                    url: "{% url 'stfq:market-categoty' %}",
+                    data: {
+                        type:'delete',
+                        id:id,
+                        path: imagePath
+                    },
+                    success: function(data) {
+                        if (data == "OK") {
+                            location.reload()
+                        }
+                    }
+                });
+
+            }).catch(function(error) {
+                // Uh-oh, an error occurred!
+            });
+
+
+        } else {
+            console.log('Cancel')
+            return
+        }
+    }
+
+    function upload_stuff() {
+        var ref = firebase.storage().ref();
+
+        let card_file = $('#product_icon').get(0).files[0]
+        if (card_file != null) {
+            let uploadTask = ref.child('Market/' + card_file.name).put(card_file);
+
+
+            uploadTask.on('state_changed', function(snapshot) {
+                $('#wave_stuff').show()
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                // Handle unsuccessful uploads
+            }, function() {
+                $('#wave_stuff').hide()
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log('File available at', downloadURL);
+                    $('#product_image').val(downloadURL)
+                });
+            });
+        } else {
+            alert('Select file first')
+        }
+
+    }
+
+    function upload_stuffes() {
+        let photos = document.getElementById('f_image_collections')
+
+        if (photos.files.length > 0) {
+            for (let i = 0; i < photos.files.length; i++) {
+                let photo = photos.files[i]
+                upload(photo)
+            }
+
+        } else {
+            alert('Select some pictures !')
+        }
+
+    }
+
+    function upload(file) {
+        // return new Promise(function(resolve, reject) {
+        var ref = firebase.storage().ref();
+
+        //let card_file = $('#idcard').get(0).files[0]
+        let uploadTask = ref.child('Market/' + file.name).put(file);
+
+        uploadTask.on('state_changed', function(snapshot) {
+            $('#wave_stuffes').show()
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function(error) {
+            // Handle unsuccessful uploads
+        }, function() {
+            $('#wave_stuffes').hide()
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                //console.log('File available at', downloadURL);
+                list_url.push(downloadURL)
+                $('#image_collections').val(list_url)
+
+            });
+        });
+        // })
+    }
+
+    function upload_data_stuff(){
+        /*
+        let text_categories = $('#categories option:selected').text()
+        let val_categories = $('#categories').val()
+       
+        console.log(text_categories)
+        console.log(val_categories)
+         */
+         let product_name = $('#product_name').val()
+         let product_price = $('#product_price').val()
+         let product_weight = $('#product_weight').val()
+         let product_date = $('#product_date').val()
+         let product_image = $('#product_image').val()
+         let categories = $('#categories').val()
+         let s_categories = categories.toString() 
+         let tenant_id = $('#tenant_id').val()
+         let image_collections = $('#image_collections').val()
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie("csrftoken")
+                },
+                type: "POST",
+                url: "{% url 'stfq:market-stuff' %}",
+                data: {
+                    'product_name':product_name,
+                    'product_price':product_price,
+                    'product_weight':product_weight,
+                    'product_date':product_date,
+                    'product_image':product_image,
+                    'categories':s_categories,
+                    'tenant_id':tenant_id,
+                    'image_collections':image_collections
+                },
+                success: function(data) {
+                    if (data == "OK") {
+                        location.reload()
+                    }
+                }
+            });
+
+
+    }
+    
+    function delproduct( id) {
+      
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+           
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie("csrftoken")
+                },
+                type: "POST",
+                url: "{% url 'stfq:market-stuff' %}",
+                data: {
+                    type:'delete',
+                    id:id,
+                },
+                success: function(data) {
+                    if (data == "OK") {
+                        location.reload()
+                    }
+                }
+            });
+
+
+        } else {
+            console.log('Cancel')
+            return
+        }
+    }
+
+</script>
+
+{%endblock script%}

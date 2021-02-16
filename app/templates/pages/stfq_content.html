@@ -1,0 +1,355 @@
+{%extends 'Root.html'%}
+{%block content%}
+<div class="table-wrapper">
+    <table id="datatable1" class="table display responsive nowrap">
+        <thead>
+            <tr>
+                <th hidden></th>
+                <th class="wd-45p">Image Link</th>
+                <th class="wd-5p"></th>
+            </tr>
+        </thead>
+        <tbody id="member-content">
+            {% for item in images %}
+            <tr id="item">
+                <td hidden>{{ item.id }}</td>
+                <td><a href="{{ item }}">Link</a></td>
+
+                <td style="padding-left: 8px; padding-right: 8px">
+                    {% if item.type != 'Title'%}
+                    <a class="fa fa-trash" onclick="deleteFile('{{item}}','{{id}}','P')" href="javascript:;"></a>
+                    {%endif%}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card pd-10 pd-sm-30">
+    {% csrf_token %}
+    <div class="form-layout">
+        <div class="row mg-b-25">
+
+            <div class="col-lg-6">
+                <div class="form-group mg-b-10-force">
+                    <label onclick="uploadMultiple()" class="form-control-label">Upload Collection <span
+                            class="fa fa-cloud"></span></label>
+                    <input class="form-control" type="file" multiple id="m_photo" name="m_photo">
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group mg-b-10-force">
+                    <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
+                    <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="stfq_photo" placeholder="" name="stfq_photo" value="" placeholder="">
+                </div>
+
+            </div>
+
+            <div class="col-lg-12">
+                <div id="l1" class="form-group">
+                    <div id="wave" class="sk-wave">
+                        <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                        <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-layout-footer">
+            <button onclick="update_photo()" id="add_collection" class="btn btn-secondary">Add Collection</button>
+        </div>
+        <!-- form-layout-footer -->
+        <!-- form-layout -->
+    </div>
+</div>
+{%endblock content%}
+
+
+
+
+
+{%block content2%}
+<div class="sl-pagebody">
+    <div class="card pd-10 pd-sm-30">
+        <div class="table-wrapper">
+            <table id="datatable2" class="table display responsive nowrap">
+                <thead>
+                    <tr>
+                        <th hidden></th>
+                        <th class="wd-45p">Video Title</th>
+                        <th class="wd-45p">Video Link</th>
+                        <!-- <th class="wd-5p">status</th> -->
+                    </tr>
+                </thead>
+                <tbody id="member-content">
+                    {% for item in videos %}
+                    <tr id="item">
+                        <td hidden>{{ item.id }}</td>
+                        <td>{{item.title}}</td>
+                        <td><a href="{{ item.link}}">Link</a></td>
+                        <!-- <td>{{item.status}}</td> -->
+        
+                        <td style="padding-left: 8px; padding-right: 8px">
+                            {% if item.type != 'Title'%}
+                            <a class="fa fa-trash" onclick="deleteFile('{{item.link}}','{{item.id}}','V')" href="javascript:;"></a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!--Form Video-->
+{% csrf_token %}
+<div class="form-layout">
+    <div class="row mg-b-25">
+        <div class="col-lg-12">
+            <div class="form-group mg-b-10-force">
+                <label class="form-control-label">Title</label>
+                <input class="form-control" type="text" id="video_title" name="video_title">
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group mg-b-10-force">
+                <label onclick="uploadSingle()" class="form-control-label">Upload File <span
+                        class="fa fa-cloud"></span></label>
+                <input class="form-control" type="file" id="m_video" name="m_video">
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group mg-b-10-force">
+                <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
+                <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="stfq_video" placeholder="" name="stfq_video" value="" placeholder="">
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+            <div id="l1" class="form-group">
+                <div id="wave_video" class="sk-wave">
+                    <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                    <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                    <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                    <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                    <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-layout-footer">
+        <button onclick="update_video()" id="add_collection" class="btn btn-secondary">Add Video</button>
+    </div>
+    <!-- form-layout-footer -->
+    <!-- form-layout -->
+</div>
+    </div>
+</div>
+
+{%endblock content2%}
+
+{%block script%}
+<script>
+    $('#wave').hide()
+    $('#wave_video').hide()
+    let list_url = []
+
+    function deleteFile(imagePath, id, type) {
+        console.log(imagePath)
+        var r = confirm("Are you sure you want to delete this item?");
+        if (r == true) {
+            console.log(imagePath)
+            let name = imagePath.substr(imagePath.indexOf('%2F') + 3, (imagePath.indexOf('?')) - (imagePath.indexOf('%2F') + 3));
+            name = name.replace('%20', ' ');
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var desertRef = storageRef.child('stfq/' + name);
+
+            // Delete the file
+            desertRef.delete().then(function() {
+                // File deleted successfully
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": $.cookie("csrftoken")
+                    },
+                    type: "POST",
+                    url: "{% url 'stfq:del-image' %}",
+                    data: {
+                        type:type,
+                        id:id,
+                        path: imagePath
+                    },
+                    success: function(data) {
+                        if (data == "OK") {
+                            location.reload()
+                        }
+                    }
+                });
+
+
+            }).catch(function(error) {
+                // Uh-oh, an error occurred!
+            });
+
+        } else {
+
+        }
+    }
+   
+    function uploadMultiple() {
+        let photos = document.getElementById('m_photo')
+
+        if (photos.files.length > 0) {
+            for (let i = 0; i < photos.files.length; i++) {
+                let photo = photos.files[i]
+                upload(photo)
+            }
+
+        } else {
+            alert('Select some pictures !')
+        }
+
+    }
+
+    function uploadSingle() {
+        // return new Promise(function(resolve, reject) {
+        var ref = firebase.storage().ref();
+
+        let file = $('#m_video').get(0).files[0]
+        if (file != null) {
+            let uploadTask = ref.child('stfq/' + file.name).put(file);
+
+            uploadTask.on('state_changed', function(snapshot) {
+                $('#wave_video').show()
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                // Handle unsuccessful uploads
+            }, function() {
+                $('#wave_video').hide()
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    //console.log('File available at', downloadURL);
+                    $('#stfq_video').val(downloadURL)
+
+                });
+            });
+            // })
+        } else {
+            alert('Select file !')
+        }
+    }
+
+
+    function upload(file) {
+        // return new Promise(function(resolve, reject) {
+        var ref = firebase.storage().ref();
+
+        //let card_file = $('#idcard').get(0).files[0]
+        let uploadTask = ref.child('stfq/' + file.name).put(file);
+
+        uploadTask.on('state_changed', function(snapshot) {
+            $('#wave').show()
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function(error) {
+            // Handle unsuccessful uploads
+        }, function() {
+            $('#wave').hide()
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                //console.log('File available at', downloadURL);
+                list_url.push(downloadURL)
+                $('#stfq_photo').val(list_url)
+
+            });
+        });
+        // })
+    }
+
+    function update_photo() {
+        let data = $('#stfq_photo').val()
+        if (data != "") {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie("csrftoken")
+                },
+                type: "POST",
+                url: "{% url 'stfq:content' %}",
+                data: {
+                    type: 'P',
+                    path: data
+                },
+                success: function(data) {
+                    if (data == "OK") {
+                        location.reload()
+                    }
+                }
+            });
+        } else {
+            alert('Upload file into collection first !')
+        }
+    }
+
+    function update_video() {
+        let data = $('#stfq_video').val()
+        let title = $('#video_title').val()
+        if (data != "") {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie("csrftoken")
+                },
+                type: "POST",
+                url: "{% url 'stfq:content' %}",
+                data: {
+                    type: 'V',
+                    path: data,
+                    title:title
+                },
+                success: function(data) {
+                    if (data == "OK") {
+                        location.reload()
+                    }
+                }
+            });
+        } else {
+            alert('Upload file into collection first !')
+        }
+    }
+
+</script>
+{%endblock script%}

@@ -131,6 +131,34 @@
                 <li class="nav-item"><a href="{%url 'structure:list'%}" class="nav-link">List</a></li>
             </ul>
         </a>
+
+        <!--STFQ Page-->
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
+                <span class="menu-item-label">STFQ Page</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div>
+            <!-- menu-item -->
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="{%url 'stfq:carousel'%}" class="nav-link">Carousel</a></li>
+                <li class="nav-item"><a href="{%url 'stfq:detail'%}" class="nav-link">Detail</a></li>
+                <li class="nav-item"><a href="{%url 'stfq:content'%}" class="nav-link">Content</a></li>
+            </ul>
+        </a>
+
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->
+                <span class="menu-item-label">STFQ Market</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div>
+            <!-- menu-item -->
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="{% url 'stfq:market'%}" class="nav-link">Stuff</a></li>
+            </ul>
+        </a>
+
         <a href="{% url 'proposal:list'%}" class="sl-menu-link">
             <div class="sl-menu-item">
                 <!-- <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i> -->

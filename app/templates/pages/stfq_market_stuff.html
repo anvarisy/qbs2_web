@@ -1,0 +1,158 @@
+<div class="sl-pagebody">
+    <div class="card pd-10 pd-sm-30">
+        <div class="table-wrapper">
+            <table class="table display responsive nowrap">
+                <thead>
+                    <tr>
+                        <th hidden></th>
+                        <th class="wd-35p">Nama</th>
+                        <th class="wd-15p">Harga</th>
+                        <th class="wd-25p">Detail</th>
+                        <th class="wd-15p">Photo</th>
+                        <!-- <th class="wd-5p">status</th> -->
+                    </tr>
+                </thead>
+                <tbody id="member-content">
+                    {% for item in stuffes %}
+                    <tr id="item">
+                        <td hidden>{{ item.id }}</td>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.product_price }}</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.product_description}}">Detail</button>
+                        </td>
+                        <td><a href="{{ item.product_image}}">Image</a></td>
+                        <td style="padding-left: 8px; padding-right: 8px">
+                            <a class="fa fa-trash" onclick="delproduct('{{item.id}}')" id="delete-item" class="fa fa-gear" href="javascript:;" style="margin-left: 5px"></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        
+            {% csrf_token %}
+            <div class="form-layout">
+                <div class="row mg-b-25">
+                    <div class="col-lg-12">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Nama Produk</label>
+                            <input class="form-control" type="text" id="product_name" name="product_name">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Harga</label>
+                            <input class="form-control" type="number" id="product_price" name="product_price">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Berat</label>
+                            <input class="form-control" type="number" id="product_weight" name="product_weight">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Tanggal</label>
+                            <input class="form-control" type="text" id="product_date" name="product_date">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <label onclick="upload_stuff()" class="form-control-label">Logo Produk<span
+                                    class="fa fa-cloud"></span></label>
+                            <input class="form-control" type="file" id="product_icon" name="product_icon">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
+                            <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="product_image" placeholder="" name="product_image" value="" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="l1" class="form-group">
+                            <div id="wave_stuff" class="sk-wave">
+                                <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Kategori</label>
+                                    <select class="form-control select2" data-placeholder="Pilih Kategori" multiple name="categories", id='categories'>
+                                        {%for item in categories%}
+                                        <option value="{{item.id}}">{{item.category_name}}</option>
+                                        {%endfor%}
+                                      </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                        
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Penjual</label>
+                            <select class="form-control" data-placeholder="Pilih Penjual" name="tenant_id", id='tenant_id'>
+                                {%for item in tenants%}
+                                <option value="{{item.id}}">{{item.tenant_name}}</option>
+                                {%endfor%}
+                              </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <label onclick="upload_stuffes()" class="form-control-label">Koleksi Produk<span
+                                    class="fa fa-cloud"></span></label>
+                            <input class="form-control" type="file" id="f_image_collections" name="f_image_collections" multiple>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group mg-b-10-force">
+                            <!-- <label class="form-control-label">Mission Collection Photo: <span class="tx-danger">*</span></label> -->
+                            <input class="form-control" style="word-break: break-word; height:100px" readonly type="text" id="image_collections" placeholder="" name="image_collections" value="" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div id="l1" class="form-group">
+                            <div id="wave_stuffes" class="sk-wave">
+                                <div class="sk-rect sk-rect1 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect2 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect3 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect4 bg-gray-800"></div>
+                                <div class="sk-rect sk-rect5 bg-gray-800"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-layout-footer">
+                    <button onclick="upload_data_stuff()" class="btn btn-secondary">Add Produk</button>
+                    <!-- <button formaction="{% url 'stfq:market-stuff'%}" class="btn btn-secondary">Add Produk</button> -->
+                </div>
+                <!-- form-layout-footer -->
+                <!-- form-layout -->
+            </div>
+     
+    </div>
+</div>

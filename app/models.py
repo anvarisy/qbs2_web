@@ -58,3 +58,11 @@ class user(AbstractBaseUser, PermissionsMixin):
         "Is the user a member of teacher?"
         # Simplest possible answer: All admins are teacher
         return self.is_admin
+
+class City(models.Model):
+    city_id = models.IntegerField(primary_key=True)
+    province_id = models.IntegerField()
+    province = models.CharField(max_length=200)
+    type = models.CharField(max_length=100)
+    city_name = models.CharField(max_length=100)
+    postal_code = models.IntegerField()

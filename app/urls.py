@@ -10,9 +10,11 @@ from app.views.user import *
 from app.views.walkthrough import *
 from app.views.payment import *
 from app.views.proposal import *
+from app.views.stfq import StfqCarousel, StfqContent, StfqDelete, StfqDetail
 from app.views.article import ViewAddArticle, ViewListArticle, ViewUpdateArticle,\
 DeleteArticle, PostAddArticle, PostUpdateArticle
 from app.views.structure import *
+from app.views.stfq_market import PostCategory, PostStuff, ViewMarket
 
 urlpatterns = [
     path('', ViewHomePage.as_view(), name='home'),
@@ -121,7 +123,17 @@ urlpatterns = [
          path('delete/<str:id_structure>',DeleteStructure.as_view(), name='delete'),
          path('post-add', PostAddStructure.as_view(), name='post-add'),
          path('post-update/<str:id_structure>', PostUpdateStructure.as_view(), name='post-update')
-     ],'structure')))
+     ],'structure'))),
+     path('stfq-',include(([
+            path('detail',StfqDetail.as_view(),name='detail'),
+            path('content',StfqContent.as_view(),name='content'),
+            path('carousel',StfqCarousel.as_view(),name='carousel'),
+            path('del-image',StfqDelete.as_view(),name='del-image'),
+            path('market',ViewMarket.as_view(),name='market'),
+            path('market-categoty',PostCategory.as_view(),name='market-categoty'),
+            path('market-stuff',PostStuff.as_view(),name='market-stuff'),
+     ],'stfq'))),
+
   
     
 ]

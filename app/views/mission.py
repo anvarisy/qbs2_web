@@ -22,7 +22,7 @@ class ViewDetailMission(LoginRequiredMixin, View):
             dict_member = donation.to_dict()
             dict_member['id'] = donation.id
             list_donation.append(dict_member)
-            list_amount.append(int(donation.to_dict()['gross_amount']))
+            list_amount.append(float(donation.to_dict()['gross_amount']))
         return render(request, self.template, {'data':list_donation, 'title':'Detail', 'total':"{:,.2f}".format(sum(list_amount))})
     
 class ViewListMission(LoginRequiredMixin, View):

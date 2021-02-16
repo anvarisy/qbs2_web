@@ -1,89 +1,43 @@
-{% extends 'Root.html' %} {% load static %} {% block css %}
-<!-- vendor css -->
-<link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
-<link href="{% static 'lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
-<link href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
-<link href="{% static 'lib/highlightjs/github.css' %}" rel="stylesheet">
-<link href="{% static 'lib/datatables/jquery.dataTables.css' %}" rel="stylesheet">
-<link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet">
+{% extends 'Root.html' %} {% load static %}
+{% block content %}
+<div class="card pd-10 pd-sm-30">
 
+    <div class="table-wrapper">
+        <table id="datatable1" class="table display responsive nowrap">
+            <thead>
+                <tr>
+                    <th hidden></th>
+                    <th class="wd-25p">Article Name</th>
+                    <th class="wd-15p">Article Icon</th>
+                    <th class="wd-20p">Article Detail</th>
+                    <th class="wd-5p"></th>
+                </tr>
+            </thead>
+            <tbody id="member-content">
+                {% for item in data %}
+                <tr id="item">
+                    <td hidden>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td><a href="{{ item.image }}">Image</a></td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.detail}}">Detail</button>
 
-<!-- Starlight CSS -->
-<link rel="stylesheet" href="{% static 'css/starlight.css' %}"> {% endblock css %} {% block navbar %} {% include 'Menu.html' %} {% endblock navbar %} {% block content %}
-<div class="sl-mainpanel">
+                    </td>
 
-    <div class="sl-pagebody">
-        <div class="sl-page-title">
-            <h5>{{title}}</h5>
-        </div>
-        <!-- sl-page-title -->
-
-        <div class="card pd-10 pd-sm-30">
-
-            <div class="table-wrapper">
-                <table id="datatable1" class="table display responsive nowrap">
-                    <thead>
-                        <tr>
-                            <th hidden></th>
-                            <th class="wd-25p">Article Name</th>
-                            <th class="wd-15p">Article Icon</th>
-                            <th class="wd-20p">Article Detail</th>
-                            <th class="wd-5p"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="member-content">
-                        {% for item in data %}
-                        <tr id="item">
-                            <td hidden>{{ item.id }}</td>
-                            <td>{{ item.title }}</td>
-                            <td><a href="{{ item.image }}">Image</a></td>
-                            <td>
-                                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.detail}}">Detail</button>
-
-                            </td>
-
-                            <td style="padding-left: 8px; padding-right: 8px">
-                                <a class="fa fa-gear" href="{% url 'article:update' id_article=item.id%}" style="margin-right: 5px">
-                                    <a class="fa fa-trash" onclick="delplatform('{{item.image}}', '{{item.id }}')" href="#" style="margin-left: 5px"></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <!-- table-wrapper -->
-        </div>
-        <!-- card -->
-
-
+                    <td style="padding-left: 8px; padding-right: 8px">
+                        <a class="fa fa-gear" href="{% url 'article:update' id_article=item.id%}" style="margin-right: 5px">
+                            <a class="fa fa-trash" onclick="delplatform('{{item.image}}', '{{item.id }}')" href="#" style="margin-left: 5px"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <!-- sl-pagebody -->
-    {% include 'Footer.html' %}
-</div>
-<!-- sl-mainpanel -->
-
+    <!-- table-wrapper -->
 </div>
 {% endblock content %} {% block script %}
 
-<script src="{% static 'lib/jquery/jquery.js' %}"></script>
-<script src="{% static 'lib/popper.js/popper.js' %}"></script>
-<script src="{% static 'lib/bootstrap/bootstrap.js' %}"></script>
-<script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
-<script src="{% static 'lib/highlightjs/highlight.pack.js' %}"></script>
-<script src="{% static 'lib/datatables/jquery.dataTables.js' %}"></script>
-<script src="{% static 'lib/datatables-responsive/dataTables.responsive.js' %}"></script>
-<script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
-
-<script src="{% static 'js/starlight.js' %}"></script>
 <script>
-    $('#datatable1').DataTable({
-        responsive: true,
-        language: {
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        }
-    });
 
 
     function delplatform(imagePath, id) {

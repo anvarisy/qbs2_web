@@ -1,0 +1,39 @@
+{% extends 'Root.html' %} {% load static %} {% block css %}{%endblock css%}
+<!-- vendor css -->
+{%block content%}
+ <form method="post" enctype="multipart/form-data" data-parsley-validate>
+    {% csrf_token %}
+    <div class="form-layout">
+        <div class="row mg-b-25">
+            <div class="col-lg-12">
+                <textarea id="summernote" name='detail'>{{detail}}</textarea>
+            </div>  
+        </div>
+        
+
+        <div class="form-layout-footer">
+          
+            <button formaction="{% url 'stfq:detail'%}" id="update" class="btn btn-info mg-r-5">Update Detail
+                    </button>
+        </div>
+        <!-- form-layout-footer -->
+        <!-- form-layout -->
+    </div>
+</form>
+
+{% endblock content %} 
+{% block script %}
+<script>
+    $(function() {
+
+        'use strict';
+     
+
+
+    function htmlDecode(input) {
+        var doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
+})
+</script>
+{%endblock script%}

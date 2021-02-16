@@ -5,7 +5,7 @@ from app.__firebase__ import db
 from django.contrib.auth.mixins import LoginRequiredMixin
 from firebase_admin import auth
 
-class GetJsonSecurity(LoginRequiredMixin, View):
+class GetJsonSecurity(View):
     def get(self, request):
         with open('config.json') as json_file:
             data = json.load(json_file)
@@ -22,7 +22,7 @@ class GetJsonUser(LoginRequiredMixin, View):
             list_user.append(dict_member)
         return JsonResponse(list_user, safe=False)
 
-class GetJsonAuth(View):
+class GetJsonAuth(LoginRequiredMixin,View):
     def get(self, request):
         list_ = []
         for user in auth.list_users().iterate_all():
