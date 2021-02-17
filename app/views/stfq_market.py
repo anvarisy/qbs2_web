@@ -97,11 +97,18 @@ class PostStuff(View):
         except:
             status = 'insert'
         if status == 'insert':
+            arrs = []
+            temp = ''
             product_name = request.POST['product_name']
+            for i in product_name:
+                temp+=i
+                arrs.append(temp)
+            
             product_price = request.POST['product_price']
             product_weight = request.POST['product_weight']
             product_date = request.POST['product_date']
             product_image = request.POST['product_image']
+            
             categories = request.POST['categories']
             a_categories = categories.split(',')
             f_categories = []
@@ -124,8 +131,10 @@ class PostStuff(View):
                     'product_image':product_image,
                     'categories':f_categories,
                     'tenant_id':tenant_id,
+                    'product_query': arrs,
                     'image_collections':image_collections
             }
+            print(data)
             ref = db.collection('stfq-market').document('Products').collection('items').document().set(data)
             return HttpResponse('OK')
         elif status == 'delete':
