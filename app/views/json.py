@@ -4,10 +4,13 @@ from django.http import JsonResponse
 from app.__firebase__ import db
 from django.contrib.auth.mixins import LoginRequiredMixin
 from firebase_admin import auth
+import os
+from qbs2_web.settings import BASE_DIR
 
+loc = os.path.join(BASE_DIR, 'config.json')
 class GetJsonSecurity(View):
     def get(self, request):
-        with open('config.json') as json_file:
+        with open(loc) as json_file:
             data = json.load(json_file)
         return JsonResponse(data)
 
