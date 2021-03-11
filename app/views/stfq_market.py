@@ -108,7 +108,7 @@ class PostStuff(View):
             product_weight = request.POST['product_weight']
             product_date = request.POST['product_date']
             product_image = request.POST['product_image']
-            
+            product_detail = request.POST['product_detail']
             categories = request.POST['categories']
             a_categories = categories.split(',')
             f_categories = []
@@ -129,6 +129,7 @@ class PostStuff(View):
                     'product_weight':product_weight,
                     'product_date':product_date,
                     'product_image':product_image,
+                    'product_detail' : product_detail,
                     'categories':f_categories,
                     'tenant_id':tenant_id,
                     'product_query': arrs,
@@ -144,3 +145,35 @@ class PostStuff(View):
                 if item.id == c_id:
                     item.reference.delete()
             return HttpResponse('OK')
+
+class ViewCarts(View):
+    template = 'pages/stfq_market_cart.html'
+    def get(self, request):
+        # ref = db.collection('stfq-market').document('Carts').collection('items').where('status','==','settlement').stream()
+        # carts = []
+        # for item in ref:
+        #     cart = item.to_dict()
+        #     cart['id'] = item.id
+        #     carts.append(cart)
+        ref_all = db.collection('stfq-market').document('Carts').collection('items').stream()
+        all_carts =[]
+        for item in ref_all:
+            cart = item.to_dict()
+            cart['id'] = item.id
+            all_carts.append(cart)
+        # print(all_carts)
+        carts =[]
+        for item in all_carts:
+            if item['status']=='settlement':
+                carts.append(item)
+        return render(request, self.template, {'carts':carts,'all_carts':all_carts})
+    
+    def post(self, request):
+        order_id = request.POST['order_id']
+        resi = request.POST['resi_order']
+        ref = db.collection('stfq-market').document('Carts').collection('items').document(order_id)
+        ref.update({
+            'resi_order':resi
+        })
+        print(order_id)
+        return redirect('stfq:market-cart')

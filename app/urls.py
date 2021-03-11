@@ -14,7 +14,7 @@ from app.views.stfq import StfqCarousel, StfqContent, StfqDelete, StfqDetail
 from app.views.article import ViewAddArticle, ViewListArticle, ViewUpdateArticle,\
 DeleteArticle, PostAddArticle, PostUpdateArticle
 from app.views.structure import *
-from app.views.stfq_market import PostCategory, PostStuff, ViewMarket
+from app.views.stfq_market import PostCategory, PostStuff, ViewCarts, ViewMarket
 
 urlpatterns = [
     path('', ViewHomePage.as_view(), name='home'),
@@ -132,6 +132,7 @@ urlpatterns = [
             path('market',ViewMarket.as_view(),name='market'),
             path('market-categoty',PostCategory.as_view(),name='market-categoty'),
             path('market-stuff',PostStuff.as_view(),name='market-stuff'),
+            path('market-cart',ViewCarts.as_view(),name='market-cart'),
      ],'stfq'))),
 
   
