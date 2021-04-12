@@ -400,11 +400,12 @@
          let product_weight = $('#product_weight').val()
          let product_date = $('#product_date').val()
          let product_image = $('#product_image').val()
-         let product_detail = $('#summernote').val()
+         let product_detail = $("#summernote").val()
          let categories = $('#categories').val()
          let s_categories = categories.toString() 
          let tenant_id = $('#tenant_id').val()
          let image_collections = $('#image_collections').val()
+         console.log(product_detail)
 
             $.ajax({
                 headers: {

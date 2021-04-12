@@ -155,6 +155,69 @@ class ViewCarts(View):
         #     cart = item.to_dict()
         #     cart['id'] = item.id
         #     carts.append(cart)
+        data_cargo = [
+            {
+                "id":"POS",
+                "value":"POS"
+            },
+            {
+                "id":"WAHANA",
+                "value":"WAHANA"
+            },
+            {
+                "id":"JNT",
+                "value":"JNT"
+            },
+            {
+                "id":"SAP",
+                "value":"SAP"
+            },
+            {
+                "id":"SICEPAT",
+                "value":"SICEPAT"
+            },
+            {
+                "id":"JET",
+                "value":"JET"
+            },
+            {
+                "id":"DSE",
+                "value":"DSE"
+            },
+            {
+                "id":"FIRST",
+                "value":"FIRST"
+            },
+            {
+                "id":"NINJA",
+                "value":"NINJA"
+            },
+            {
+                "id":"LION",
+                "value":"LION"
+            },
+            {
+                "id":"IDL",
+                "value":"IDL"
+            },
+            {
+                "id":"REX",
+                "value":"REX"
+            },
+            {
+                "id":"IDE",
+                "value":"IDE"
+            },
+            {
+                "id":"SENTRAL",
+                "value":"SENTRAL"
+            },
+            {
+                "id":"ANTERAJA",
+                "value":"ANTERAJA"
+            },
+            
+        ]
         ref_all = db.collection('stfq-market').document('Carts').collection('items').stream()
         all_carts =[]
         for item in ref_all:
@@ -166,14 +229,16 @@ class ViewCarts(View):
         for item in all_carts:
             if item['status']=='settlement':
                 carts.append(item)
-        return render(request, self.template, {'carts':carts,'all_carts':all_carts})
+        return render(request, self.template, {'carts':carts,'all_carts':all_carts,'data_cargo':data_cargo})
     
     def post(self, request):
         order_id = request.POST['order_id']
         resi = request.POST['resi_order']
+        service_type = request.POST['service_type']
         ref = db.collection('stfq-market').document('Carts').collection('items').document(order_id)
         ref.update({
-            'resi_order':resi
+            'resi_order':resi,
+            'service_type':service_type
         })
         print(order_id)
         return redirect('stfq:market-cart')

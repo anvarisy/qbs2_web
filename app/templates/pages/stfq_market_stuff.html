@@ -20,7 +20,7 @@
                         <td>{{ item.product_name }}</td>
                         <td>{{ item.product_price }}</td>
                         <td>
-                            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.product_description}}">Detail</button>
+                            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Detail" data-content="{{item.product_detail}}">Detail</button>
                         </td>
                         <td><a href="{{ item.product_image}}">Image</a></td>
                         <td style="padding-left: 8px; padding-right: 8px">
@@ -67,7 +67,7 @@
                     <div class="col-lg-12">
                         <div class="form-group mg-b-10-force">
                             <label class="form-control-label">Detail</label>
-                            <input class="form-control" type="text" id="summernote" name="product_detail">
+                            <textarea class="form-control" type="text" id="summernote" name="product_detail"></textarea>
                         </div>
                     </div>
 
